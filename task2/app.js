@@ -48,7 +48,6 @@ app.post('/register', (req, res) => {
         jsonData.push(loggedUser);
         fs.writeFileSync('users.json', JSON.stringify(jsonData), (err) => {
             if (err) throw err;
-            console.log('User registered');
         });
         res.redirect('/users');
     }
