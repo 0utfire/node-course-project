@@ -58,7 +58,9 @@ app.get('/login', (req, res) => {
     if (isLogged) {
         res.redirect('/users');
     }
-    res.render('login');
+    if (!isLogged) {
+        res.render('login');
+    }
 });
 
 app.post('/login', (req, res) => {
@@ -82,16 +84,19 @@ app.get('/users', (req, res) => {
     if (!isLogged) {
         error = 'You are not logged in.';
         res.redirect('/error');
-        res.end();
     }
-    res.render('users', { loggedUser, users: jsonData, isLogged });
+    if (isLogged) {
+        res.render('users', { loggedUser, users: jsonData, isLogged });
+    }
 });
 
 app.get('/error', (req, res) => {
     if (!error) {
         res.redirect('/');
     }
-    res.render('error', { error });
+    if (error) {
+        res.render('error', { error });
+    }
 });
 
 app.get('/logout', (req, res) => {
