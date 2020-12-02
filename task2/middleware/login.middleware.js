@@ -22,9 +22,9 @@ module.exports = {
     },
     checkIfLogged: (req, res, next) => {
         try {
-            console.log('checkIfLogged', variable.isLogged);
+            // console.log('checkIfLogged', variable.isLogged);
             if (variable.isLogged) {
-                console.log('gotouser');
+                // console.log('gotouser');
                 res.redirect('/users');
             }
             next();

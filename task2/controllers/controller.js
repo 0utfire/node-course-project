@@ -8,18 +8,18 @@ module.exports = {
         res.render('register', { isLogged, loggedUser });
     },
     registerUser: (req, res) => {
-        console.log(req.body);
+        // console.log(req.body);
         services.registerUser(req.body);
         res.redirect('/users');
     },
     loginUser: (req, res) => {
-        console.log('loginUser', variable.loggedUser);
+        // console.log('loginUser', variable.loggedUser);
         if (Object.keys(variable.loggedUser).length) {
-            console.log('gotouser');
+            // console.log('gotouser');
             res.redirect('/users');
         }
         if (!Object.keys(variable.loggedUser).length) {
-            console.log('renderlogin');
+            // console.log('renderlogin');
             res.render('login');
         }
     },
@@ -33,7 +33,7 @@ module.exports = {
     },
     renderUsersPage: (req, res) => {
         const { isLogged, loggedUser } = variable;
-        console.log(loggedUser);
+        // console.log(loggedUser);
         res.render('users', { loggedUser, users, isLogged });
     }
 };
