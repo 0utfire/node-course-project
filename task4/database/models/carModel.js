@@ -1,6 +1,6 @@
 module.exports = (client, DataTypes) => {
     const carModel = client.define(
-        'cars',
+        'carModel',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -31,7 +31,7 @@ module.exports = (client, DataTypes) => {
         }
     );
     carModel.associate = (models) => {
-        carModel.belongsTo(models.users, { foreignKey: 'user_id', onUpdate: 'cascade', onDelete: 'cascade' });
+        carModel.belongsTo(models.userModel, { foreignKey: 'user_id', onUpdate: 'cascade', onDelete: 'cascade' });
     };
     return carModel;
 };

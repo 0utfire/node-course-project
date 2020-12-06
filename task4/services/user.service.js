@@ -1,6 +1,3 @@
-// const fs = require('fs');
-// const variable = require('../variables/variable');
-// const users = require('../users.json');
 const db = require('../database').GetInstance();
 
 module.exports = {

@@ -3,6 +3,7 @@ const express = require('express');
 const {
     loginRouter,
     userRouter,
+    carRouter,
     // , logoutRouter,
 } = require('./routes');
 const db = require('./database').GetInstance();
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use('/login', loginRouter);
 app.use('/users', userRouter);
+app.use('/cars', carRouter);
 // app.use('/logout', logoutRouter);
 
 app.listen(3000, () => {
