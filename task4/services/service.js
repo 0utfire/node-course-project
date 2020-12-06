@@ -20,7 +20,7 @@ module.exports = {
     // }
 
     findUsers: () => {
-        const studentModel = db.getModel('students');
+        const studentModel = db.getModel('users');
         return studentModel.findAll();
     }
 };

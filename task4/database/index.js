@@ -5,7 +5,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 module.exports = (() => {
     let instance;
     const InitConnection = () => {
-        const client = new Sequelize('june-2020', 'root', 'Nathan7662', {
+        const client = new Sequelize('node-database', 'root', 'Nathan7662', {
             host: 'localhost',
             dialect: 'mysql'
         });

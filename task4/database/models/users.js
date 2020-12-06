@@ -1,29 +1,31 @@
 module.exports = (client, DataTypes) => {
-    const students = client.define(
-        'students',
+    const userModel = client.define(
+        'users',
         {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
-                autoIncrement: true
+                autoIncrement: true,
+                allowNull: false
             },
-            name: {
+            fullname: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            age: {
+            email: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
+                unique: true,
             },
-            gender: {
+            password: {
                 type: DataTypes.STRING,
                 allowNull: false,
             }
         },
         {
-            tableName: 'students',
+            tableName: 'users',
             timestamps: false
         }
     );
-    return students;
+    return userModel;
 };
