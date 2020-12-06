@@ -1,6 +1,6 @@
 module.exports = (client, DataTypes) => {
     const userModel = client.define(
-        'users',
+        'userModel',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -13,7 +13,7 @@ module.exports = (client, DataTypes) => {
                 allowNull: false,
             },
             email: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 allowNull: false,
                 unique: true,
             },
