@@ -48,6 +48,18 @@ module.exports = {
             }
         );
     },
+    updateUserByID: (id, update) => {
+        const userModel = db.getModel('userModel');
+
+        return userModel.update(
+            { ...update },
+            {
+                where: {
+                    id
+                }
+            }
+        );
+    },
     destroyUser: (user) => {
         const userModel = db.getModel('userModel');
 

@@ -22,11 +22,25 @@ module.exports = {
             res.status(400).json(e.message);
         }
     },
-    checkIfEmailExistsUpdate: async (req, res, next) => {
+    checkIfEmailExistsUpdateQuery: async (req, res, next) => {
         try {
             const { email } = req.query;
-            const users = await userService.findUserByEmail(email);
-            if (users[0]) throw new Error('Email already in use');
+            if (email) {
+                const users = await userService.findUserByEmail(email);
+                if (users[0]) throw new Error('Email already in use');
+            }
+            next();
+        } catch (e) {
+            res.status(400).json(e.message);
+        }
+    },
+    checkIfEmailExistsUpdateParams: async (req, res, next) => {
+        try {
+            const { email } = req.body;
+            if (email) {
+                const users = await userService.findUserByEmail(email);
+                if (users[0]) throw new Error('Email already in use');
+            }
             next();
         } catch (e) {
             res.status(400).json(e.message);

@@ -42,6 +42,16 @@ module.exports = {
             res.status(400).json(e.message);
         }
     },
+    updateUserByID: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const update = req.body;
+            await userService.updateUserByID(id, update);
+            res.status(200).json('Update successful');
+        } catch (e) {
+            res.status(400).json(e.message);
+        }
+    },
     deleteUser: async (req, res) => {
         try {
             const user = req.body;
