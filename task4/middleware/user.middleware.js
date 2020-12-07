@@ -38,8 +38,8 @@ module.exports = {
         try {
             const { email } = req.body;
             if (email) {
-                const users = await userService.findUserByEmail(email);
-                if (users[0]) throw new Error('Email already in use');
+                const [user] = await userService.findUserByEmail(email);
+                if (user) throw new Error('Email already in use');
             }
             next();
         } catch (e) {
@@ -49,8 +49,8 @@ module.exports = {
     checkIfUserExists: async (req, res, next) => {
         try {
             const user = req.body;
-            const users = await userService.findExactUser(user);
-            if (!users[0]) throw new Error('No such user');
+            const [users] = await userService.findExactUser(user);
+            if (!users) throw new Error('No such user');
             next();
         } catch (e) {
             res.status(400).json(e.message);
