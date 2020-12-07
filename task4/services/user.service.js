@@ -1,16 +1,22 @@
 const db = require('../database').GetInstance();
 
 module.exports = {
-    registerUser: (data) => {
+    registerUser: (user) => {
         const userModel = db.getModel('userModel');
 
-        return userModel.create(data);
+        return userModel.create(user);
     },
 
     findUsers: () => {
         const userModel = db.getModel('userModel');
 
         return userModel.findAll();
+    },
+    findUsersWithCars: () => {
+        const userModel = db.getModel('userModel');
+        const carModel = db.getModel('carModel');
+
+        return userModel.findAll({ include: carModel });
     },
     findUserByEmail: (email) => {
         const userModel = db.getModel('userModel');

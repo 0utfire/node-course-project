@@ -22,11 +22,21 @@ module.exports = {
             res.status(400).json(e.message);
         }
     },
+    getUsersByEmail: async (req, res) => {
+        try {
+            const { email } = req.params;
+            console.log(email);
+            const users = await userService.findUserByEmail(email);
+            res.json(users);
+        } catch (e) {
+            res.status(400).json(e.message);
+        }
+    },
     updateUser: async (req, res) => {
         try {
             const user = req.body;
-            const updates = req.query;
-            await userService.updateUser(user, updates);
+            const update = req.query;
+            await userService.updateUser(user, update);
             res.status(200).json('Update successful');
         } catch (e) {
             res.status(400).json(e.message);

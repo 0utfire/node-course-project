@@ -1,6 +1,7 @@
 module.exports = (client, DataTypes) => {
+    // const userModel = require('./userModel');
     const carModel = client.define(
-        'carModel',
+        'car',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -20,7 +21,7 @@ module.exports = (client, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-            user_id: {
+            userId: {
                 type: DataTypes.INTEGER,
                 foreignKey: true,
             }
@@ -30,8 +31,10 @@ module.exports = (client, DataTypes) => {
             timestamps: false
         }
     );
-    carModel.associate = (models) => {
-        carModel.belongsTo(models.userModel, { foreignKey: 'user_id', onUpdate: 'cascade', onDelete: 'cascade' });
-    };
+    const userModel = require('./userModel')(client, DataTypes);
+
+    carModel.belongsTo(userModel, {
+        foreignKey: 'userId', targetKey: 'id', onUpdate: 'cascade', onDelete: 'cascade'
+    });
     return carModel;
 };

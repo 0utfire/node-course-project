@@ -6,6 +6,7 @@ const { userMiddleware } = require('../middleware');
 
 // registerRouter.get('/', controller.renderRegisterPage);
 userRouter.get('/', userController.getUsers);
+userRouter.get('/:email', userController.getUsersByEmail);
 userRouter.post('/', userMiddleware.checkIfDBExists, userMiddleware.checkIfEmailExists, userController.registerUser);
 userRouter.put('/', userMiddleware.checkIfEmailExistsUpdate, userController.updateUser);
 userRouter.delete('/', userMiddleware.checkIfUserExists, userController.deleteUser);
