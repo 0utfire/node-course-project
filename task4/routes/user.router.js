@@ -4,7 +4,6 @@ const userRouter = Router();
 const { userController } = require('../controllers');
 const { userMiddleware } = require('../middleware');
 
-// registerRouter.get('/', controller.renderRegisterPage);
 userRouter.get('/', userController.getUsers);
 userRouter.get('/:email', userController.getUsersByEmail);
 userRouter.post('/', userMiddleware.checkIfDBExists, userMiddleware.checkIfEmailExists, userController.registerUser);
