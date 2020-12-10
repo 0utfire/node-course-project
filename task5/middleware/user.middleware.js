@@ -1,12 +1,10 @@
-const db = require('../database').GetInstance();
 const { userService } = require('../services');
+const { User } = require('../dataBase/models');
 
 module.exports = {
     checkIfDBExists: (req, res, next) => {
         try {
-            const userModel = db.getModel('userModel');
-
-            userModel.sync();
+            User.sync();
             next();
         } catch (e) {
             res.status(400).json('Table does not exist');
@@ -15,8 +13,8 @@ module.exports = {
     checkIfEmailExists: async (req, res, next) => {
         try {
             const { email } = req.body;
-            const [users] = await userService.findUserByEmail(email);
-            if (users) throw new Error('User already exists');
+            const users = await userService.findUserByEmail(email);
+            if (users[0]) throw new Error('User already exists');
             next();
         } catch (e) {
             res.status(400).json(e.message);
@@ -26,8 +24,8 @@ module.exports = {
         try {
             const { email } = req.query;
             if (email) {
-                const [users] = await userService.findUserByEmail(email);
-                if (users) throw new Error('Email already in use');
+                const users = await userService.findUserByEmail(email);
+                if (users[0]) throw new Error('Email already in use');
             }
             next();
         } catch (e) {

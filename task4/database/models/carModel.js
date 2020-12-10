@@ -1,5 +1,4 @@
 module.exports = (client, DataTypes) => {
-    // const userModel = require('./userModel');
     const carModel = client.define(
         'car',
         {
@@ -33,8 +32,7 @@ module.exports = (client, DataTypes) => {
     );
     const userModel = require('./userModel')(client, DataTypes);
 
-    carModel.belongsTo(userModel, {
-        foreignKey: 'userId', targetKey: 'id', onUpdate: 'cascade', onDelete: 'cascade'
-    });
+    carModel.belongsTo(userModel);
+    userModel.hasMany(carModel);
     return carModel;
 };
