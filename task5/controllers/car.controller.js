@@ -1,11 +1,12 @@
 const { carService } = require('../services');
+const { errors: { OK, ITEM_CREATED } } = require('../error');
 
 module.exports = {
     createCar: async (req, res) => {
         try {
             console.log(req.body);
             const car = await carService.createCar(req.body);
-            res.status(201).json(car);
+            res.status(ITEM_CREATED.code).json(car);
         } catch (e) {
             res.status(400).json(e.message);
         }
@@ -13,7 +14,7 @@ module.exports = {
     getAllCars: async (req, res) => {
         try {
             const cars = await carService.getAllCars();
-            res.json(cars);
+            res.status(OK.code).json(cars);
         } catch (e) {
             res.status(400).json(e.message);
         }
@@ -23,7 +24,7 @@ module.exports = {
             const car = req.body;
             const update = req.query;
             await carService.updateCar(car, update);
-            res.status(200).json('Update successful');
+            res.status(OK.code).json('Update successful');
         } catch (e) {
             res.status(400).json(e.message);
         }
@@ -32,7 +33,7 @@ module.exports = {
         try {
             const car = req.body;
             await carService.destroyCar(car);
-            res.status(200).json('Car deleted');
+            res.status(OK.code).json('Car deleted');
         } catch (e) {
             res.status(400).json(e.message);
         }

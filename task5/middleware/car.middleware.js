@@ -1,23 +1,19 @@
 const { carService } = require('../services');
-const { Car } = require('../dataBase/models');
+const {
+    ErrorHandler, errors: { ITEM_EXISTS }
+} = require('../error');
 
 module.exports = {
-    checkIfDBExists: (req, res, next) => {
-        try {
-            Car.sync();
-            next();
-        } catch (e) {
-            res.status(400).json('Table does not exist');
-        }
-    },
     checkIfCarExists: async (req, res, next) => {
         try {
             const car = req.body;
-            const cars = await carService.findExactCar(car);
-            if (cars[0]) throw new Error('Car already exists');
+            const [exactCar] = await carService.findExactCar(car);
+            if (exactCar) {
+                throw new ErrorHandler(ITEM_EXISTS.message, ITEM_EXISTS.code);
+            }
             next();
         } catch (e) {
-            res.status(400).json(e.message);
+            next(e);
         }
     },
 };

@@ -30,7 +30,7 @@ Car.init({
     },
 }, { sequelize, timestamps: false });
 
-Car.belongsTo(User);
-User.hasMany(Car);
+User.hasMany(Car, { foreignKey: 'userId' });
+Car.belongsTo(User, { foreignKey: 'userId' });
 
 module.exports = Car;
