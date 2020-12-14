@@ -1,9 +1,13 @@
 const { Router } = require('express');
 
 const loginRouter = Router();
-const { userController } = require('../controllers');
-const { userMiddleware } = require('../middleware');
+const { logController } = require('../controllers');
+const { logMiddleware } = require('../middleware');
 
-loginRouter.post('/', userMiddleware.checkLoginDetails, userController.loginUser);
+loginRouter.post('/',
+    logMiddleware.checkIfLoginDetailsPresent,
+    logMiddleware.checkIfUserInDBPresent,
+    logMiddleware.checkLoginDetails,
+    logController.loginUser);
 
 module.exports = loginRouter;

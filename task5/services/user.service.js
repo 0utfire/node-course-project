@@ -1,4 +1,4 @@
-const { User, Car } = require('../dataBase/models');
+const { User, Car } = require('../database/models');
 
 module.exports = {
     registerUser: (user) => User.create(user),
@@ -51,12 +51,5 @@ module.exports = {
                 ...user
             }
         }
-    ),
-
-    checkLoginDetails: (email, password) => User.findAll({
-        where: {
-            email,
-            password
-        }
-    })
+    )
 };

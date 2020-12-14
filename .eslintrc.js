@@ -74,7 +74,7 @@ module.exports = {
                 ignoreRegExpLiterals: true,
                 ignoreUrls: true,
                 comments: 130,
-                code: 130,
+                code: 150,
             },
         ],
         'no-magic-numbers': [

@@ -1,15 +1,21 @@
 const { userService } = require('../services');
+const { hash } = require('../helpers/password.hasher');
 const { ErrorHandler, errors: { NOT_VALID_ID, OK, ITEM_CREATED } } = require('../error');
 
 module.exports = {
     registerUser: async (req, res) => {
         try {
-            const users = await userService.registerUser(req.body);
-            res.status(ITEM_CREATED.code).json(users);
+            const password = await hash(req.body.password);
+
+            Object.assign(req.body, { password });
+
+            const user = await userService.registerUser(req.body);
+            res.status(ITEM_CREATED.code).json(`Account with email ${user.email} created`);
         } catch (e) {
             res.status(400).json(e.message);
         }
     },
+
     getUsers: async (req, res) => {
         try {
             const users = await userService.findUsersWithCars();
@@ -18,6 +24,7 @@ module.exports = {
             res.status(400).json(e.message);
         }
     },
+
     getUsersById: async (req, res, next) => {
         try {
             const { id } = req.params;
@@ -30,6 +37,7 @@ module.exports = {
             next(e);
         }
     },
+
     updateUser: async (req, res) => {
         try {
             const user = req.body;
@@ -40,6 +48,7 @@ module.exports = {
             res.status(400).json(e.message);
         }
     },
+
     updateUserByID: async (req, res) => {
         try {
             const { id } = req.params;
@@ -50,6 +59,7 @@ module.exports = {
             res.status(400).json(e.message);
         }
     },
+
     deleteUser: async (req, res) => {
         try {
             const user = req.body;
@@ -59,6 +69,7 @@ module.exports = {
             res.status(400).json(e.message);
         }
     },
+
     loginUser: (req, res) => {
         try {
             res.status(OK.code).json('You are logged in');
@@ -66,6 +77,7 @@ module.exports = {
             res.status(400).json(e.message);
         }
     },
+
     logoutUser: (req, res) => {
         try {
             res.status(OK.code).json('You are logged out');

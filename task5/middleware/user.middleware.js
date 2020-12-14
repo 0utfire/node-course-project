@@ -1,4 +1,6 @@
 const { userService } = require('../services');
+const { userValidator } = require('../validators');
+
 const {
     ErrorHandler, errors: {
         ID_LESS_0, NOT_VALID_BODY, ITEM_EXISTS, EMAIL_IN_USE, NO_SUCH_USER, INVALID_DETAILS
@@ -8,10 +10,11 @@ const {
 module.exports = {
     checkIfDataValid: (req, res, next) => {
         try {
-            const user = req.body;
+            const { value, error } = userValidator.validate(req.body);
+            req.body = value;
 
-            if (!user.name || !user.email || !user.password) {
-                throw new ErrorHandler(NOT_VALID_BODY.message, NOT_VALID_BODY.code);
+            if (error) {
+                throw new ErrorHandler(error.details[0].message, NOT_VALID_BODY.code);
             }
             next();
         } catch (e) {

@@ -1,5 +1,5 @@
 const express = require('express');
-const { sequelize } = require('./dataBase');
+const { sequelize } = require('./database');
 const {
     loginRouter, userRouter, carRouter, logoutRouter
 } = require('./routes');
@@ -22,6 +22,6 @@ app.use('*', (err, req, res, next) => {
         });
 });
 
-sequelize.sync({ force: true, alter: true })
+sequelize.sync({ alter: false })
     .then(() => app.listen(3000, (err) => (err && console.log(err)) || console.log('Listen 3000 ...')))
     .catch(console.log);
