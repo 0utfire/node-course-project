@@ -1,8 +1,8 @@
 const { Router } = require('express');
 
 const logoutRouter = Router();
-const controller = require('../controllers/user.controller');
+const { logController } = require('../controllers');
 
-logoutRouter.get('/', controller.logoutUser);
+logoutRouter.get('/logout', logController.logoutUser);
 
 module.exports = logoutRouter;

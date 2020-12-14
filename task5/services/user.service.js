@@ -4,6 +4,11 @@ module.exports = {
     registerUser: (user) => User.create(user),
 
     findUsersWithCars: () => User.findAll({
+        attributes: [
+            'id',
+            'name',
+            'email'
+        ],
         include: [{
             model: Car
         }]
