@@ -41,7 +41,13 @@ module.exports = {
     updateUser: async (req, res) => {
         try {
             const user = req.body;
-            const update = req.query;
+            const { update } = req.body;
+
+            if (update.password) {
+                const password = await hash(update.password);
+                Object.assign(update, { password });
+            }
+
             await userService.updateUser(user, update);
             res.status(OK.code).json('Update successful');
         } catch (e) {
@@ -53,6 +59,12 @@ module.exports = {
         try {
             const { id } = req.params;
             const update = req.body;
+
+            if (update.password) {
+                const password = await hash(update.password);
+                Object.assign(update, { password });
+            }
+
             await userService.updateUserByID(id, update);
             res.status(OK.code).json('Update successful');
         } catch (e) {

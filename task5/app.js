@@ -15,7 +15,7 @@ app.use('/cars', carRouter);
 app.use('/logout', logoutRouter);
 app.use('*', (err, req, res, next) => {
     res
-        .status(err.code)
+        .status(err.code || 500)
         .json({
             message: err.message,
             ok: false

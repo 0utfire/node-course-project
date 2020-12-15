@@ -1,5 +1,5 @@
+const { userValidator, updateValidator } = require('../validators');
 const { userService } = require('../services');
-const { userValidator } = require('../validators');
 
 const {
     ErrorHandler, errors: {
@@ -11,6 +11,20 @@ module.exports = {
     checkIfDataValid: (req, res, next) => {
         try {
             const { value, error } = userValidator.validate(req.body);
+            req.body = value;
+
+            if (error) {
+                throw new ErrorHandler(error.details[0].message, NOT_VALID_BODY.code);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkIfUpdateDataValid: (req, res, next) => {
+        try {
+            const { value, error } = updateValidator.validate(req.body);
             req.body = value;
 
             if (error) {
@@ -48,27 +62,17 @@ module.exports = {
         }
     },
 
-    checkIfEmailExistsUpdateQuery: async (req, res, next) => {
-        try {
-            const { email } = req.query;
-            if (email) {
-                const [user] = await userService.findUserByEmail(email);
-                if (user) {
-                    throw new ErrorHandler(EMAIL_IN_USE.message, EMAIL_IN_USE.code);
-                }
-            }
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    checkIfEmailExistsUpdateParams: async (req, res, next) => {
+    checkIfEmailExistsUpdate: async (req, res, next) => {
         try {
             const { email } = req.body;
             if (email) {
-                const [user] = await userService.findUserByEmail(email);
-                if (user) {
+                const { id } = req.params;
+                const [userByID] = await userService.findUserById(id);
+                if (email === userByID.email) {
+                    return next();
+                }
+                const [userByEmail] = await userService.findUserByEmail(email);
+                if (userByEmail) {
                     throw new ErrorHandler(EMAIL_IN_USE.message, EMAIL_IN_USE.code);
                 }
             }
