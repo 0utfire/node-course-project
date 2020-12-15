@@ -38,23 +38,6 @@ module.exports = {
         }
     },
 
-    updateUser: async (req, res) => {
-        try {
-            const user = req.body;
-            const { update } = req.body;
-
-            if (update.password) {
-                const password = await hash(update.password);
-                Object.assign(update, { password });
-            }
-
-            await userService.updateUser(user, update);
-            res.status(OK.code).json('Update successful');
-        } catch (e) {
-            res.status(400).json(e.message);
-        }
-    },
-
     updateUserByID: async (req, res) => {
         try {
             const { id } = req.params;

@@ -32,15 +32,6 @@ module.exports = {
         }
     }),
 
-    updateUser: (user, update) => User.update(
-        { ...update },
-        {
-            where: {
-                ...user
-            }
-        }
-    ),
-
     updateUserByID: (id, update) => User.update(
         { ...update },
         {
