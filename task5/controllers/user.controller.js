@@ -42,6 +42,8 @@ module.exports = {
         try {
             const { id } = req.params;
             const update = req.body;
+            console.log(id);
+            console.log(update);
 
             if (update.password) {
                 const password = await hash(update.password);

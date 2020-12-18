@@ -6,8 +6,8 @@ const { logMiddleware } = require('../middleware');
 
 loginRouter.post('/',
     logMiddleware.checkIfLoginDetailsPresent,
-    logMiddleware.checkIfUserInDBPresent,
-    logMiddleware.checkLoginDetails,
+    logMiddleware.checkEmailInDB,
+    logMiddleware.checkPasswordInDB,
     logController.loginUser);
 
 module.exports = loginRouter;

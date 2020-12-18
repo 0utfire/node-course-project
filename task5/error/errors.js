@@ -31,6 +31,10 @@ module.exports = {
         message: 'Invalid details',
         code: UNAUTHORIZED
     },
+    NOT_VALID_TOKEN: {
+        message: 'Not valid token',
+        code: UNAUTHORIZED
+    },
     ITEM_CREATED: {
         message: 'ITEM created',
         code: CREATED

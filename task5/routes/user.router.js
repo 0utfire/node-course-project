@@ -2,7 +2,7 @@ const { Router } = require('express');
 
 const userRouter = Router();
 const { userController } = require('../controllers');
-const { userMiddleware } = require('../middleware');
+const { logMiddleware, userMiddleware } = require('../middleware');
 
 userRouter.get('/',
     userController.getUsers);
@@ -23,6 +23,7 @@ userRouter.put('/:id',
     userController.updateUserByID);
 
 userRouter.delete('/',
+    logMiddleware.checkAccessToken,
     userMiddleware.checkIfUserExists,
     userController.deleteUser);
 
