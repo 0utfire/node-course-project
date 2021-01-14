@@ -10,4 +10,8 @@ loginRouter.post('/',
     logMiddleware.checkPasswordInDB,
     logController.loginUser);
 
+loginRouter.post('/refresh',
+    logMiddleware.checkRefreshToken,
+    logController.refreshToken);
+
 module.exports = loginRouter;

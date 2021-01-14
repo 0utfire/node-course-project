@@ -5,18 +5,22 @@ const { userController } = require('../controllers');
 const { logMiddleware, userMiddleware } = require('../middleware');
 
 userRouter.get('/',
+    logMiddleware.checkAccessToken,
     userController.getUsers);
 
 userRouter.get('/:id',
+    logMiddleware.checkAccessToken,
     userMiddleware.checkIfIdValid,
     userController.getUsersById);
 
 userRouter.post('/',
+    logMiddleware.checkAccessToken,
     userMiddleware.checkIfDataValid,
     userMiddleware.checkIfEmailExists,
     userController.registerUser);
 
 userRouter.put('/:id',
+    logMiddleware.checkAccessToken,
     userMiddleware.checkIfIdValid,
     userMiddleware.checkIfUpdateDataValid,
     userMiddleware.checkIfEmailExistsUpdate,

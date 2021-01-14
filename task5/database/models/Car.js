@@ -28,6 +28,12 @@ Car.init({
         type: DataTypes.INTEGER,
         allowNull: false
     },
+
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        foreignKey: true
+    }
 }, { sequelize, timestamps: false });
 
 User.hasMany(Car, { foreignKey: 'userId' });

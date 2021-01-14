@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } = require('../config/config');
+const { AUTHORIZATION } = require('../config/constants');
 const { loginValidator } = require('../validators');
 const { logService, o_authService } = require('../services');
 const { ErrorHandler, errors: { NOT_VALID_BODY, INVALID_DETAILS, NOT_VALID_TOKEN } } = require('../error');
@@ -49,25 +51,54 @@ module.exports = {
 
     checkAccessToken: async (req, res, next) => {
         try {
-            const access_token = req.get('authorization');
+            const token = req.get(AUTHORIZATION);
 
-            if (!access_token) {
+            if (!token) {
                 throw new ErrorHandler(NOT_VALID_TOKEN.message, NOT_VALID_TOKEN.code);
             }
 
-            jwt.verify(access_token, 'KEY', (err) => {
+            jwt.verify(token, ACCESS_TOKEN_KEY, (err) => {
                 if (err) {
                     throw new ErrorHandler(NOT_VALID_TOKEN.message, NOT_VALID_TOKEN.code);
                 }
                 next();
             });
 
-            const userWithToken = await o_authService.getTokenUserByParams(access_token);
+            const userWithToken = await o_authService.getAccessTokenUserByParams(token);
             if (!userWithToken) {
                 throw new ErrorHandler(NOT_VALID_TOKEN.message, NOT_VALID_TOKEN.code);
             }
             req.user = userWithToken;
-            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkRefreshToken: async (req, res, next) => {
+        try {
+            const token = await req.get(AUTHORIZATION);
+            console.log('1');
+
+            if (!token) {
+                throw new ErrorHandler(NOT_VALID_TOKEN.message, NOT_VALID_TOKEN.code);
+            }
+
+            jwt.verify(token, REFRESH_TOKEN_KEY, (err) => {
+                if (err) {
+                    throw new ErrorHandler(NOT_VALID_TOKEN.message, NOT_VALID_TOKEN.code);
+                }
+                next();
+            });
+            console.log('1.5');
+            console.log('__________2');
+            console.log(token);
+            const userWithToken = await o_authService.getRefreshTokenUserByParams(token);
+            console.log('__________3');
+
+            if (!userWithToken) {
+                throw new ErrorHandler(NOT_VALID_TOKEN.message, NOT_VALID_TOKEN.code);
+            }
+            req.user = userWithToken;
         } catch (e) {
             next(e);
         }
